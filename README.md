@@ -1,10 +1,11 @@
-# Dolphin Service Menus (Complete Toolkit)
+# Dolphin Service Menus (Toolkit Completo)
 
-Repositorio para reproduzir e compartilhar minha configuracao de atalhos no menu de contexto do Dolphin.
+Repositório para instalar, reproduzir e compartilhar atalhos personalizados no menu de contexto do Dolphin.
 
-## O que este repo instala
+## O que este repositório instala
 
-- `dolphinrc` base em `files/config/hypr/dolphin/dolphinrc`
+- Configuração base do Dolphin:
+  - `files/config/hypr/dolphin/dolphinrc`
 - Service menus em `~/.local/share/kio/servicemenus`:
   - `Abrir no terminal aqui`
   - `Copiar caminho absoluto`
@@ -15,8 +16,8 @@ Repositorio para reproduzir e compartilhar minha configuracao de atalhos no menu
   - `Comprimir > Comprimir para TAR.GZ`
   - `Ferramentas > Duplicar com timestamp`
   - `Ferramentas > Gerar SHA256 e copiar`
-  - `Ferramentas > Tornar executavel (chmod +x)`
-  - `Ferramentas > Remover executavel (chmod -x)`
+  - `Ferramentas > Tornar executável (chmod +x)`
+  - `Ferramentas > Remover executável (chmod -x)`
   - `Abrir no editor`
   - `Abrir como root`
 - Scripts auxiliares em `~/.local/bin`:
@@ -31,7 +32,7 @@ Repositorio para reproduzir e compartilhar minha configuracao de atalhos no menu
   - `dolphin-duplicate-timestamp`
   - `dolphin-open-as-root`
 
-## Estrutura
+## Estrutura do projeto
 
 ```text
 files/
@@ -43,22 +44,23 @@ scripts/export-from-system.sh
 scripts/verify.sh
 ```
 
-Os arquivos `.desktop` no repo usam `@HOME@` nos comandos `Exec`.
-Durante `./install.sh`, esse placeholder e substituido pelo diretorio real do usuario.
-Eles tambem sao instalados com permissao executavel (`0755`), exigencia de seguranca do Dolphin/KIO para service menus em pasta de usuario.
+Os arquivos `.desktop` do repositório usam `@HOME@` nos comandos `Exec`.  
+Durante `./install.sh`, esse placeholder é substituído automaticamente pelo diretório real do usuário.
+
+Por requisito de segurança do Dolphin/KIO, os service menus instalados no diretório do usuário são gravados com permissão executável (`0755`).
 
 ## Requisitos
 
 - KDE Dolphin (KDE Frameworks 6)
 - `kitty` (terminal preferencial)
-- `bsdtar` (extracao principal)
-- `zip` e `tar` (compressao)
+- `bsdtar` (extração principal)
+- `zip` e `tar` (compressão)
 - `sha256sum` (hash)
-- `kwriteconfig6` e `kbuildsycoca6` (normalmente no KDE)
-- `pkexec` (atalho Abrir como root)
+- `kwriteconfig6` e `kbuildsycoca6` (normalmente já presentes no KDE)
+- `pkexec` (para o atalho `Abrir como root`)
 - Opcional: `7z`, `wl-copy` ou `xclip`, `code`, `nvim`
 
-## Instalacao
+## Instalação
 
 ```bash
 git clone https://github.com/bernardopg/dolphin-servicemenus.git
@@ -66,18 +68,28 @@ cd dolphin-servicemenus
 ./install.sh
 ```
 
-Se os itens nao aparecerem na hora, feche e abra o Dolphin.
+Se os atalhos não aparecerem imediatamente, feche e abra o Dolphin.
 
-## Seguranca
+## Verificação rápida
 
-- `Abrir como root` usa `pkexec` e abre uma nova janela do Dolphin com privilegios elevados.
-- Use apenas quando necessario e evite editar/deletar em massa como root.
+```bash
+./scripts/verify.sh
+```
 
-## Atualizar o repo a partir do sistema atual
+## Atualizar o repositório a partir do sistema local
 
-Depois de ajustar algo localmente:
+Depois de ajustar algo no seu ambiente:
 
 ```bash
 ./scripts/export-from-system.sh
 git status
 ```
+
+## Segurança
+
+- `Abrir como root` usa `pkexec` e abre uma nova janela do Dolphin com privilégios elevados.
+- Use essa opção apenas quando necessário.
+
+## Licença
+
+Este projeto está licenciado sob a [MIT License](./LICENSE).
