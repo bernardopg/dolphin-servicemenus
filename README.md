@@ -31,6 +31,7 @@ scripts/verify.sh
 
 Os arquivos `.desktop` no repo usam `@HOME@` nos comandos `Exec`.
 Durante `./install.sh`, esse placeholder e substituido pelo diretorio real do usuario.
+Eles tambem sao instalados com permissao executavel (`0755`), exigencia de seguranca do Dolphin/KIO para service menus em pasta de usuario.
 
 ## Requisitos
 

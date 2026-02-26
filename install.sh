@@ -26,7 +26,8 @@ install_desktop_template() {
   home_escaped="$(printf '%s\n' "$HOME" | sed 's/[&]/\\&/g')"
   sed "s|@HOME@|$home_escaped|g" "$src" > "$tmp"
   mkdir -p "$(dirname -- "$dst")"
-  install -m 0644 "$tmp" "$dst"
+  # KDE blocks user-owned service menus if they are not executable.
+  install -m 0755 "$tmp" "$dst"
   rm -f "$tmp"
 }
 

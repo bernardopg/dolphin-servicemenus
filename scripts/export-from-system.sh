@@ -11,9 +11,9 @@ copy_file() {
 }
 
 copy_file "$HOME/.config/hypr/dolphin/dolphinrc" "$ROOT_DIR/files/config/hypr/dolphin/dolphinrc" 0644
-copy_file "$HOME/.local/share/kio/servicemenus/open-in-kitty.desktop" "$ROOT_DIR/files/local/share/kio/servicemenus/open-in-kitty.desktop" 0644
-copy_file "$HOME/.local/share/kio/servicemenus/extract-archives.desktop" "$ROOT_DIR/files/local/share/kio/servicemenus/extract-archives.desktop" 0644
-copy_file "$HOME/.local/share/kio/servicemenus/run-in-terminal.desktop" "$ROOT_DIR/files/local/share/kio/servicemenus/run-in-terminal.desktop" 0644
+copy_file "$HOME/.local/share/kio/servicemenus/open-in-kitty.desktop" "$ROOT_DIR/files/local/share/kio/servicemenus/open-in-kitty.desktop" 0755
+copy_file "$HOME/.local/share/kio/servicemenus/extract-archives.desktop" "$ROOT_DIR/files/local/share/kio/servicemenus/extract-archives.desktop" 0755
+copy_file "$HOME/.local/share/kio/servicemenus/run-in-terminal.desktop" "$ROOT_DIR/files/local/share/kio/servicemenus/run-in-terminal.desktop" 0755
 copy_file "$HOME/.local/bin/dolphin-open-terminal" "$ROOT_DIR/files/local/bin/dolphin-open-terminal" 0755
 copy_file "$HOME/.local/bin/dolphin-copy-path" "$ROOT_DIR/files/local/bin/dolphin-copy-path" 0755
 copy_file "$HOME/.local/bin/dolphin-extract" "$ROOT_DIR/files/local/bin/dolphin-extract" 0755
