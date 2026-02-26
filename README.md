@@ -60,3 +60,13 @@ git status
 
 No meu caso, `~/.config/dolphinrc` e um symlink para `~/.config/hypr/dolphin/dolphinrc`.
 O `install.sh` detecta isso e grava no alvo correto automaticamente.
+
+## Auditoria rapida da pasta `~/.config/hypr`
+
+Antes de criar este repo, foi feita uma revisao da sua pasta `~/.config/hypr`:
+
+- Ja existe um repositorio git nela (`origin` apontando para `hypr-waybar-setup`).
+- Existem muitos arquivos e contextos alem do Dolphin (Hyprland, VSCode, scripts, etc.).
+- Ha itens sensiveis/locais no ecossistema (ex.: `secrets.env`, historicos, caches), mesmo com `.gitignore`.
+
+Por isso, a melhor organizacao para compartilhar apenas o Dolphin foi separar em um repositorio dedicado e pequeno, com instalacao automatica e sem misturar todo o resto da sua stack.
