@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+mode="${1:-}"
+shift || true
+
+if [[ "$mode" != "add" && "$mode" != "remove" ]]; then
+  echo "Uso: dolphin-chmod <add|remove> <arquivos...>" >&2
+  exit 2
+fi
+
+if [[ "$#" -eq 0 ]]; then
+  echo "Nenhum arquivo informado." >&2
+  exit 1
+fi
+
+notify() {
+  if command -v notify-send >/dev/null 2>&1; then
+    notify-send "Dolphin" "$1" >/dev/null 2>&1 || true
+  fi
+}
+
+changed=0
+skipped=0
+
+for target in "$@"; do
+  if [[ ! -e "$target" || ! -f "$target" ]]; then
+    skipped=$((skipped + 1))
+    continue
+  fi
+
+  if [[ "$mode" == "add" ]]; then
+    chmod u+x -- "$target"
+  else
+    chmod u-x -- "$target"
+  fi
+  changed=$((changed + 1))
+done
+
+if [[ "$mode" == "add" ]]; then
+  notify "Executavel adicionado: $changed item(ns), ignorado(s): $skipped."
+else
+  notify "Executavel removido: $changed item(ns), ignorado(s): $skipped."
+fi
+
+exit 0

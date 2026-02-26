@@ -49,11 +49,21 @@ install_file "$FILES_DIR/local/bin/dolphin-open-terminal" "$HOME/.local/bin/dolp
 install_file "$FILES_DIR/local/bin/dolphin-copy-path" "$HOME/.local/bin/dolphin-copy-path" 0755
 install_file "$FILES_DIR/local/bin/dolphin-extract" "$HOME/.local/bin/dolphin-extract" 0755
 install_file "$FILES_DIR/local/bin/dolphin-run-in-terminal" "$HOME/.local/bin/dolphin-run-in-terminal" 0755
+install_file "$FILES_DIR/local/bin/dolphin-compress" "$HOME/.local/bin/dolphin-compress" 0755
+install_file "$FILES_DIR/local/bin/dolphin-chmod" "$HOME/.local/bin/dolphin-chmod" 0755
+install_file "$FILES_DIR/local/bin/dolphin-sha256-copy" "$HOME/.local/bin/dolphin-sha256-copy" 0755
+install_file "$FILES_DIR/local/bin/dolphin-open-editor" "$HOME/.local/bin/dolphin-open-editor" 0755
+install_file "$FILES_DIR/local/bin/dolphin-duplicate-timestamp" "$HOME/.local/bin/dolphin-duplicate-timestamp" 0755
+install_file "$FILES_DIR/local/bin/dolphin-open-as-root" "$HOME/.local/bin/dolphin-open-as-root" 0755
 
 log "Installing Dolphin service menus"
 install_desktop_template "$FILES_DIR/local/share/kio/servicemenus/open-in-kitty.desktop" "$HOME/.local/share/kio/servicemenus/open-in-kitty.desktop"
 install_desktop_template "$FILES_DIR/local/share/kio/servicemenus/extract-archives.desktop" "$HOME/.local/share/kio/servicemenus/extract-archives.desktop"
 install_desktop_template "$FILES_DIR/local/share/kio/servicemenus/run-in-terminal.desktop" "$HOME/.local/share/kio/servicemenus/run-in-terminal.desktop"
+install_desktop_template "$FILES_DIR/local/share/kio/servicemenus/compress-items.desktop" "$HOME/.local/share/kio/servicemenus/compress-items.desktop"
+install_desktop_template "$FILES_DIR/local/share/kio/servicemenus/file-tools.desktop" "$HOME/.local/share/kio/servicemenus/file-tools.desktop"
+install_desktop_template "$FILES_DIR/local/share/kio/servicemenus/open-in-editor.desktop" "$HOME/.local/share/kio/servicemenus/open-in-editor.desktop"
+install_desktop_template "$FILES_DIR/local/share/kio/servicemenus/open-as-root.desktop" "$HOME/.local/share/kio/servicemenus/open-as-root.desktop"
 
 log "Installing dolphinrc"
 DOLPHINRC_SRC="$FILES_DIR/config/hypr/dolphin/dolphinrc"
@@ -70,6 +80,14 @@ set_kservice_visible copyAbsolutePath
 set_kservice_visible extractHere
 set_kservice_visible extractToFolder
 set_kservice_visible runInTerminal
+set_kservice_visible compressZip
+set_kservice_visible compressTarGz
+set_kservice_visible duplicateWithTimestamp
+set_kservice_visible copySha256
+set_kservice_visible chmodMakeExec
+set_kservice_visible chmodRemoveExec
+set_kservice_visible openInEditor
+set_kservice_visible openAsRoot
 
 log "Refreshing KDE service cache"
 if command -v kbuildsycoca6 >/dev/null 2>&1; then

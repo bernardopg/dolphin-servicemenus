@@ -1,0 +1,32 @@
+[Desktop Entry]
+Type=Service
+Name=Ferramentas de arquivo
+X-KDE-ServiceTypes=KonqPopupMenu/Plugin
+MimeType=all/allfiles;inode/directory;
+Actions=duplicateWithTimestamp;copySha256;chmodMakeExec;chmodRemoveExec;
+X-KDE-Submenu=Ferramentas
+X-KDE-Submenu[pt_BR]=Ferramentas
+
+[Desktop Action duplicateWithTimestamp]
+Name=Duplicar com timestamp
+Name[pt_BR]=Duplicar com timestamp
+Exec=@HOME@/.local/bin/dolphin-duplicate-timestamp %F
+Icon=edit-copy
+
+[Desktop Action copySha256]
+Name=Gerar SHA256 e copiar
+Name[pt_BR]=Gerar SHA256 e copiar
+Exec=@HOME@/.local/bin/dolphin-sha256-copy %F
+Icon=view-certificate
+
+[Desktop Action chmodMakeExec]
+Name=Tornar executavel (chmod +x)
+Name[pt_BR]=Tornar executavel (chmod +x)
+Exec=@HOME@/.local/bin/dolphin-chmod add %F
+Icon=emblem-symbolic-link
+
+[Desktop Action chmodRemoveExec]
+Name=Remover executavel (chmod -x)
+Name[pt_BR]=Remover executavel (chmod -x)
+Exec=@HOME@/.local/bin/dolphin-chmod remove %F
+Icon=emblem-unreadable

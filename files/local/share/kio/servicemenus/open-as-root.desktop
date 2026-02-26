@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Service
+Name=Abrir como root
+X-KDE-ServiceTypes=KonqPopupMenu/Plugin
+MimeType=all/allfiles;inode/directory;
+Actions=openAsRoot;
+X-KDE-RequiredNumberOfUrls=1
+
+[Desktop Action openAsRoot]
+Name=Abrir como root
+Name[pt_BR]=Abrir como root
+Exec=@HOME@/.local/bin/dolphin-open-as-root %f
+Icon=system-lock-screen

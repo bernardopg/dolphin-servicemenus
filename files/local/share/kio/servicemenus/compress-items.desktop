@@ -1,0 +1,20 @@
+[Desktop Entry]
+Type=Service
+Name=Atalhos de compressao
+X-KDE-ServiceTypes=KonqPopupMenu/Plugin
+MimeType=all/allfiles;inode/directory;
+Actions=compressZip;compressTarGz;
+X-KDE-Submenu=Comprimir
+X-KDE-Submenu[pt_BR]=Comprimir
+
+[Desktop Action compressZip]
+Name=Comprimir para ZIP
+Name[pt_BR]=Comprimir para ZIP
+Exec=@HOME@/.local/bin/dolphin-compress zip %F
+Icon=package-x-generic
+
+[Desktop Action compressTarGz]
+Name=Comprimir para TAR.GZ
+Name[pt_BR]=Comprimir para TAR.GZ
+Exec=@HOME@/.local/bin/dolphin-compress targz %F
+Icon=package-x-generic

@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ "$#" -eq 0 ]]; then
+  echo "Nenhum arquivo ou pasta informado." >&2
+  exit 1
+fi
+
+notify() {
+  if command -v notify-send >/dev/null 2>&1; then
+    notify-send "Dolphin" "$1" >/dev/null 2>&1 || true
+  fi
+}
+
+ts="$(date +%Y%m%d-%H%M%S)"
+count=0
+
+for src in "$@"; do
+  if [[ ! -e "$src" ]]; then
+    continue
+  fi
+
+  parent="$(dirname -- "$src")"
+  name="$(basename -- "$src")"
+  dst="$parent/$name.$ts"
+
+  i=1
+  while [[ -e "$dst" ]]; do
+    dst="$parent/$name.$ts-$i"
+    ((i++))
+  done
+
+  cp -a -- "$src" "$dst"
+  count=$((count + 1))
+done
+
+notify "Duplicacao concluida: $count item(ns)."
+exit 0

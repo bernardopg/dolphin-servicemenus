@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+target="${1:-$PWD}"
+if [[ -d "$target" ]]; then
+  dir="$target"
+  file=""
+else
+  dir="$(dirname -- "$target")"
+  file="$target"
+fi
+
+if command -v code >/dev/null 2>&1; then
+  if [[ -n "$file" ]]; then
+    nohup code -g "$file" >/dev/null 2>&1 &
+  else
+    nohup code "$dir" >/dev/null 2>&1 &
+  fi
+  exit 0
+fi
+
+if command -v nvim >/dev/null 2>&1; then
+  if command -v kitty >/dev/null 2>&1; then
+    if [[ -n "$file" ]]; then
+      exec kitty --directory "$dir" nvim "$file"
+    fi
+    exec kitty --directory "$dir" nvim .
+  fi
+
+  if command -v konsole >/dev/null 2>&1; then
+    if [[ -n "$file" ]]; then
+      exec konsole --workdir "$dir" -e nvim "$file"
+    fi
+    exec konsole --workdir "$dir" -e nvim .
+  fi
+fi
+
+if command -v xdg-open >/dev/null 2>&1; then
+  if [[ -n "$file" ]]; then
+    nohup xdg-open "$file" >/dev/null 2>&1 &
+  else
+    nohup xdg-open "$dir" >/dev/null 2>&1 &
+  fi
+  exit 0
+fi
+
+echo "Nenhum editor disponivel encontrado." >&2
+exit 1

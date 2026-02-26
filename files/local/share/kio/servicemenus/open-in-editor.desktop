@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Service
+Name=Abrir no editor
+X-KDE-ServiceTypes=KonqPopupMenu/Plugin
+MimeType=all/allfiles;inode/directory;
+Actions=openInEditor;
+X-KDE-RequiredNumberOfUrls=1
+
+[Desktop Action openInEditor]
+Name=Abrir no editor
+Name[pt_BR]=Abrir no editor
+Exec=@HOME@/.local/bin/dolphin-open-editor %f
+Icon=accessories-text-editor

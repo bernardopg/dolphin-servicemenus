@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ "$#" -eq 0 ]]; then
+  echo "Nenhum arquivo informado." >&2
+  exit 1
+fi
+
+notify() {
+  if command -v notify-send >/dev/null 2>&1; then
+    notify-send "Dolphin" "$1" >/dev/null 2>&1 || true
+  fi
+}
+
+tmp="$(mktemp)"
+trap 'rm -f "$tmp"' EXIT
+
+count=0
+for target in "$@"; do
+  if [[ -f "$target" ]]; then
+    sha256sum -- "$target" >> "$tmp"
+    count=$((count + 1))
+  fi
+done
+
+if [[ "$count" -eq 0 ]]; then
+  notify "Nenhum arquivo regular para calcular SHA256."
+  exit 1
+fi
+
+if command -v wl-copy >/dev/null 2>&1; then
+  cat "$tmp" | wl-copy
+elif command -v xclip >/dev/null 2>&1; then
+  cat "$tmp" | xclip -selection clipboard
+else
+  notify "SHA256 calculado, mas wl-copy/xclip nao encontrado."
+fi
+
+if [[ "$count" -eq 1 ]]; then
+  only="$1"
+  out="${only}.sha256"
+else
+  parent="$(dirname -- "$1")"
+  out="$parent/SHA256SUMS-$(date +%Y%m%d-%H%M%S).txt"
+fi
+
+cat "$tmp" > "$out"
+notify "SHA256 copiado e salvo em $(basename -- "$out")."
+
+exit 0

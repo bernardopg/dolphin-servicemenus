@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+mode="${1:-}"
+shift || true
+
+if [[ "$mode" != "zip" && "$mode" != "targz" ]]; then
+  echo "Uso: dolphin-compress <zip|targz> <arquivos...>" >&2
+  exit 2
+fi
+
+if [[ "$#" -eq 0 ]]; then
+  echo "Nenhum arquivo ou pasta informado." >&2
+  exit 1
+fi
+
+notify() {
+  if command -v notify-send >/dev/null 2>&1; then
+    notify-send "Dolphin" "$1" >/dev/null 2>&1 || true
+  fi
+}
+
+parent="$(dirname -- "$1")"
+items=()
+
+for path in "$@"; do
+  if [[ ! -e "$path" ]]; then
+    echo "Nao encontrado: $path" >&2
+    exit 1
+  fi
+  if [[ "$(dirname -- "$path")" != "$parent" ]]; then
+    echo "Selecao em pastas diferentes nao e suportada." >&2
+    notify "Selecione itens da mesma pasta para comprimir."
+    exit 1
+  fi
+  items+=("$(basename -- "$path")")
+done
+
+if [[ "$#" -eq 1 ]]; then
+  base_name="$(basename -- "$1")"
+else
+  base_name="archive-$(date +%Y%m%d-%H%M%S)"
+fi
+
+if [[ "$mode" == "zip" ]]; then
+  ext=".zip"
+else
+  ext=".tar.gz"
+fi
+
+out="$parent/$base_name$ext"
+i=1
+while [[ -e "$out" ]]; do
+  out="$parent/$base_name-$i$ext"
+  ((i++))
+done
+
+if [[ "$mode" == "zip" ]]; then
+  ( cd "$parent" && zip -r -q "$out" "${items[@]}" )
+else
+  ( cd "$parent" && tar -czf "$out" -- "${items[@]}" )
+fi
+
+notify "Arquivo criado: $(basename -- "$out")"
+exit 0
