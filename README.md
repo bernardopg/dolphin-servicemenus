@@ -4,7 +4,7 @@ Repositorio para reproduzir e compartilhar minha configuracao de atalhos no menu
 
 ## O que este repo instala
 
-- `dolphinrc` base (origem: `~/.config/hypr/dolphin/dolphinrc`)
+- `dolphinrc` base em `files/config/hypr/dolphin/dolphinrc`
 - Service menus em `~/.local/share/kio/servicemenus`:
   - `Abrir no terminal aqui`
   - `Copiar caminho absoluto`
@@ -81,18 +81,3 @@ Depois de ajustar algo localmente:
 ./scripts/export-from-system.sh
 git status
 ```
-
-## Observacao sobre seu setup Hypr
-
-No meu caso, `~/.config/dolphinrc` e um symlink para `~/.config/hypr/dolphin/dolphinrc`.
-O `install.sh` detecta isso e grava no alvo correto automaticamente.
-
-## Auditoria rapida da pasta `~/.config/hypr`
-
-Antes de criar este repo, foi feita uma revisao da sua pasta `~/.config/hypr`:
-
-- Ja existe um repositorio git nela (`origin` apontando para `hypr-waybar-setup`).
-- Existem muitos arquivos e contextos alem do Dolphin (Hyprland, VSCode, scripts, etc.).
-- Ha itens sensiveis/locais no ecossistema (ex.: `secrets.env`, historicos, caches), mesmo com `.gitignore`.
-
-Por isso, a melhor organizacao para compartilhar apenas o Dolphin foi separar em um repositorio dedicado e pequeno, com instalacao automatica e sem misturar todo o resto da sua stack.
