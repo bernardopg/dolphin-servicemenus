@@ -1,0 +1,19 @@
+[Desktop Entry]
+Type=Service
+Name=Atalhos de terminal e caminho
+X-KDE-ServiceTypes=KonqPopupMenu/Plugin
+MimeType=inode/directory;all/allfiles;
+Actions=openInKitty;copyAbsolutePath;
+X-KDE-RequiredNumberOfUrls=1
+
+[Desktop Action openInKitty]
+Name=Abrir no terminal aqui
+Name[pt_BR]=Abrir no terminal aqui
+Exec=/usr/bin/env dolphin-open-terminal %f
+Icon=utilities-terminal
+
+[Desktop Action copyAbsolutePath]
+Name=Copiar caminho absoluto
+Name[pt_BR]=Copiar caminho absoluto
+Exec=/usr/bin/env dolphin-copy-path %f
+Icon=edit-copy-path

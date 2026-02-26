@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+mode="${1:-}"
+if [[ "$mode" != "here" && "$mode" != "folder" ]]; then
+  echo "Uso: dolphin-extract <here|folder> <arquivo...>" >&2
+  exit 2
+fi
+shift
+
+if [[ "$#" -eq 0 ]]; then
+  echo "Nenhum arquivo informado." >&2
+  exit 1
+fi
+
+notify() {
+  if command -v notify-send >/dev/null 2>&1; then
+    notify-send "Dolphin" "$1" >/dev/null 2>&1 || true
+  fi
+}
+
+strip_archive_ext() {
+  local name="$1"
+  local ext
+  for ext in \
+    ".tar.gz" ".tar.bz2" ".tar.xz" ".tar.zst" \
+    ".tgz" ".tbz2" ".txz" ".tzst" \
+    ".zip" ".7z" ".rar" ".tar" ".gz" ".bz2" ".xz" ".zst"; do
+    if [[ "$name" == *"$ext" ]]; then
+      echo "${name%"$ext"}"
+      return
+    fi
+  done
+  echo "$name"
+}
+
+extract_one() {
+  local archive="$1"
+  local base parent dest stem
+
+  if [[ ! -f "$archive" ]]; then
+    echo "Arquivo nao encontrado: $archive" >&2
+    return 1
+  fi
+
+  parent="$(dirname -- "$archive")"
+  base="$(basename -- "$archive")"
+
+  if [[ "$mode" == "here" ]]; then
+    dest="$parent"
+  else
+    stem="$(strip_archive_ext "$base")"
+    [[ -n "$stem" ]] || stem="extraido"
+    dest="$parent/$stem"
+    mkdir -p "$dest"
+  fi
+
+  if bsdtar -xf "$archive" -C "$dest" >/dev/null 2>&1; then
+    return 0
+  fi
+
+  if command -v 7z >/dev/null 2>&1; then
+    7z x -y "-o$dest" "$archive" >/dev/null
+    return 0
+  fi
+
+  echo "Falha ao extrair: $archive" >&2
+  return 1
+}
+
+fail=0
+for archive in "$@"; do
+  if ! extract_one "$archive"; then
+    fail=1
+  fi
+done
+
+if [[ "$fail" -eq 0 ]]; then
+  notify "Extracao concluida."
+else
+  notify "Uma ou mais extracoes falharam."
+fi
+
+exit "$fail"

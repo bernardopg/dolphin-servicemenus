@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Service
+Name=Atalho de execucao em terminal
+X-KDE-ServiceTypes=KonqPopupMenu/Plugin
+MimeType=application/x-executable;application/x-shellscript;text/x-python;text/x-shellscript;application/vnd.appimage;
+Actions=runInTerminal;
+
+[Desktop Action runInTerminal]
+Name=Executar no terminal
+Name[pt_BR]=Executar no terminal
+Exec=/usr/bin/env dolphin-run-in-terminal %f
+Icon=system-run

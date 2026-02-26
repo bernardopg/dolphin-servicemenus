@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Open terminal in selected directory, or in parent directory for files.
+target="${1:-$PWD}"
+if [[ -d "$target" ]]; then
+  dir="$target"
+elif [[ -e "$target" ]]; then
+  dir="$(dirname -- "$target")"
+else
+  dir="$PWD"
+fi
+
+if command -v kitty >/dev/null 2>&1; then
+  exec kitty --directory "$dir"
+fi
+
+if command -v konsole >/dev/null 2>&1; then
+  exec konsole --workdir "$dir"
+fi
+
+exec xterm -e "cd -- \"$dir\"; exec \"${SHELL:-/bin/sh}\""

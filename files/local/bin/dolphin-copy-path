@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+path="${1:-}"
+if [[ -z "$path" ]]; then
+  echo "Nenhum caminho recebido." >&2
+  exit 1
+fi
+
+if command -v wl-copy >/dev/null 2>&1; then
+  printf '%s' "$path" | wl-copy
+elif command -v xclip >/dev/null 2>&1; then
+  printf '%s' "$path" | xclip -selection clipboard
+else
+  echo "wl-copy/xclip nao encontrado." >&2
+  exit 1
+fi
+
+if command -v notify-send >/dev/null 2>&1; then
+  notify-send "Dolphin" "Caminho copiado para a area de transferencia." >/dev/null 2>&1 || true
+fi

@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+target="${1:-}"
+if [[ -z "$target" || ! -e "$target" ]]; then
+  echo "Arquivo invalido: $target" >&2
+  exit 1
+fi
+
+dir="$(dirname -- "$target")"
+
+run_cmd='target="$1"; if [ -x "$target" ]; then "$target"; else shebang=$(head -n 1 "$target" 2>/dev/null || true); if printf "%s" "$shebang" | grep -q "^#!"; then interp=${shebang#\#!}; set -- $interp; "$@" "$target"; elif [ "${target##*.}" = "sh" ]; then sh "$target"; else echo "Arquivo nao executavel: $target"; exit 126; fi; fi; rc=$?; echo; echo "Exit code: $rc"; exit "$rc"'
+
+if command -v kitty >/dev/null 2>&1; then
+  exec kitty --hold --directory "$dir" sh -lc "$run_cmd" sh "$target"
+fi
+
+if command -v konsole >/dev/null 2>&1; then
+  exec konsole --workdir "$dir" -e sh -lc "$run_cmd" sh "$target"
+fi
+
+echo "Nenhum terminal suportado encontrado (kitty/konsole)." >&2
+exit 1
