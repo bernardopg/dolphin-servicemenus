@@ -19,4 +19,13 @@ copy_file "$HOME/.local/bin/dolphin-copy-path" "$ROOT_DIR/files/local/bin/dolphi
 copy_file "$HOME/.local/bin/dolphin-extract" "$ROOT_DIR/files/local/bin/dolphin-extract" 0755
 copy_file "$HOME/.local/bin/dolphin-run-in-terminal" "$ROOT_DIR/files/local/bin/dolphin-run-in-terminal" 0755
 
+# Keep templates portable in the repository.
+home_escaped="$(printf '%s\n' "$HOME" | sed 's/[&]/\\&/g')"
+for desktop in \
+  "$ROOT_DIR/files/local/share/kio/servicemenus/open-in-kitty.desktop" \
+  "$ROOT_DIR/files/local/share/kio/servicemenus/extract-archives.desktop" \
+  "$ROOT_DIR/files/local/share/kio/servicemenus/run-in-terminal.desktop"; do
+  sed -i "s|$home_escaped|@HOME@|g" "$desktop"
+done
+
 echo "Export complete. Review with: git status"

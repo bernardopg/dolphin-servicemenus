@@ -29,6 +29,9 @@ scripts/export-from-system.sh
 scripts/verify.sh
 ```
 
+Os arquivos `.desktop` no repo usam `@HOME@` nos comandos `Exec`.
+Durante `./install.sh`, esse placeholder e substituido pelo diretorio real do usuario.
+
 ## Requisitos
 
 - KDE Dolphin (KDE Frameworks 6)

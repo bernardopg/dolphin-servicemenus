@@ -8,5 +8,5 @@ Actions=runInTerminal;
 [Desktop Action runInTerminal]
 Name=Executar no terminal
 Name[pt_BR]=Executar no terminal
-Exec=/usr/bin/env dolphin-run-in-terminal %f
+Exec=@HOME@/.local/bin/dolphin-run-in-terminal %f
 Icon=system-run

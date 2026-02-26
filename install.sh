@@ -16,6 +16,20 @@ install_file() {
   install -m "$mode" "$src" "$dst"
 }
 
+install_desktop_template() {
+  local src="$1"
+  local dst="$2"
+  local tmp
+  local home_escaped
+
+  tmp="$(mktemp)"
+  home_escaped="$(printf '%s\n' "$HOME" | sed 's/[&]/\\&/g')"
+  sed "s|@HOME@|$home_escaped|g" "$src" > "$tmp"
+  mkdir -p "$(dirname -- "$dst")"
+  install -m 0644 "$tmp" "$dst"
+  rm -f "$tmp"
+}
+
 set_kservice_visible() {
   local key="$1"
   if command -v kwriteconfig6 >/dev/null 2>&1; then
@@ -36,9 +50,9 @@ install_file "$FILES_DIR/local/bin/dolphin-extract" "$HOME/.local/bin/dolphin-ex
 install_file "$FILES_DIR/local/bin/dolphin-run-in-terminal" "$HOME/.local/bin/dolphin-run-in-terminal" 0755
 
 log "Installing Dolphin service menus"
-install_file "$FILES_DIR/local/share/kio/servicemenus/open-in-kitty.desktop" "$HOME/.local/share/kio/servicemenus/open-in-kitty.desktop" 0644
-install_file "$FILES_DIR/local/share/kio/servicemenus/extract-archives.desktop" "$HOME/.local/share/kio/servicemenus/extract-archives.desktop" 0644
-install_file "$FILES_DIR/local/share/kio/servicemenus/run-in-terminal.desktop" "$HOME/.local/share/kio/servicemenus/run-in-terminal.desktop" 0644
+install_desktop_template "$FILES_DIR/local/share/kio/servicemenus/open-in-kitty.desktop" "$HOME/.local/share/kio/servicemenus/open-in-kitty.desktop"
+install_desktop_template "$FILES_DIR/local/share/kio/servicemenus/extract-archives.desktop" "$HOME/.local/share/kio/servicemenus/extract-archives.desktop"
+install_desktop_template "$FILES_DIR/local/share/kio/servicemenus/run-in-terminal.desktop" "$HOME/.local/share/kio/servicemenus/run-in-terminal.desktop"
 
 log "Installing dolphinrc"
 DOLPHINRC_SRC="$FILES_DIR/config/hypr/dolphin/dolphinrc"

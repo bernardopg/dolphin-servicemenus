@@ -10,11 +10,11 @@ X-KDE-Submenu[pt_BR]=Descompactar
 [Desktop Action extractHere]
 Name=Extrair aqui
 Name[pt_BR]=Extrair aqui
-Exec=/usr/bin/env dolphin-extract here %F
+Exec=@HOME@/.local/bin/dolphin-extract here %F
 Icon=archive-extract
 
 [Desktop Action extractToFolder]
 Name=Extrair para pasta com o mesmo nome
 Name[pt_BR]=Extrair para pasta com o mesmo nome
-Exec=/usr/bin/env dolphin-extract folder %F
+Exec=@HOME@/.local/bin/dolphin-extract folder %F
 Icon=folder-new
